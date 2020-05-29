@@ -13,15 +13,14 @@
         "source": "https://github.com/pwweb/Copper"
     },
     "license": "MIT",
-    "authors": [
-        {
+    "authors": [{
             "name": "Richard Browne",
             "email": "richard.browne@pw-websolutions.com",
             "homepage": "http://www.pw-websolutions.com"
         },
         {
             "name": "Frank Pillukeit",
-            "email": "frank.pillukeit@pw-websolutions.com"
+            "email": "frank.pillukeit@pw-websolutions.com",
             "homepage": "http://www.pw-websolutions.com"
         }
     ],
