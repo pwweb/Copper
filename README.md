@@ -1,2 +1,2 @@
-# copper
-An API extension for NumberFormat
+# Copper
+An API extension for NumberFormatter
