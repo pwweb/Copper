@@ -1,0 +1,79 @@
+{
+    "name": "pwweb/copper",
+    "type": "library",
+    "description": "An API extension for NumberFormatter.",
+    "keywords": [
+        "number",
+        "format",
+        "NumberFormatter"
+    ],
+    "homepage": "http://copper.pw-websolutions.com",
+    "support": {
+        "issues": "https://github.com/pwweb/Copper/issues",
+        "source": "https://github.com/pwweb/Copper"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Richard Browne",
+            "email": "richard.browne@pw-websolutions.com",
+            "homepage": "http://www.pw-websolutions.com"
+        },
+        {
+            "name": "Frank Pillukeit",
+            "email": "frank.pillukeit@pw-websolutions.com"
+            "homepage": "http://www.pw-websolutions.com"
+        }
+    ],
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "bin": ["bin/copper"],
+    "require": {
+        "php": "^7.1.8 || ^8.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.14 || ^3.0",
+        "kylekatarnls/multi-tester": "^1.1",
+        "phpmd/phpmd": "^2.8",
+        "phpstan/phpstan": "^0.11",
+        "phpunit/phpunit": "^7.5 || ^8.0",
+        "squizlabs/php_codesniffer": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Copper\\": "src/Copper/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": [
+            "@phpunit",
+            "@style-check"
+        ],
+        "style-check": [
+            "@phpcs",
+            "@phpstan",
+            "@phpmd"
+        ],
+        "phpunit": "phpunit --verbose",
+        "phpcs": "php-cs-fixer fix -v --diff --dry-run",
+        "phpstan": "phpstan analyse --configuration phpstan.neon --level 3 src tests",
+        "phpmd": "phpmd src text /phpmd.xml",
+        "phpdoc": "php phpdoc.php"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Copper\\Laravel\\ServiceProvider"
+            ]
+        }
+    }
+}
