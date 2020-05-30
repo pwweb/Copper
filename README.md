@@ -4,7 +4,7 @@
 [![Total Downloads](https://poser.pugx.org/pwweb/copper/downloads?format=flat-square)](https://packagist.org/packages/pwweb/copper)
 [![License](https://poser.pugx.org/pwweb/copper/license?format=flat-square)](https://packagist.org/packages/pwweb/copper)
 [![Scrutinizer code quality (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/quality/g/pwweb/copper?label=Scrutinizer&style=flat-square)](https://scrutinizer-ci.com/g/pwweb/copper/)
-[![StyleCI Status](https://github.styleci.io/repos/190910947/shield?branch=master)](https://github.styleci.io/repos/190910947)
+[![StyleCI Status](https://github.styleci.io/repos/267909905/shield?branch=master)](https://github.styleci.io/repos/267909905)
 
 ![](copper.jpg)
 
