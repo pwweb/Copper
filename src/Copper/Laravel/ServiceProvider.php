@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Copper\Laravel;
 
 use Copper\Copper;
@@ -73,7 +74,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      *
      * @param Illuminate\Contracts\Events\Dispatcher|Illuminate\Events\Dispatcher|Illuminate\Events\EventDispatcher $instance Event dispatcher
      *
-     * @return boolean
+     * @return bool
      */
     protected function isEventDispatcher($instance)
     {
