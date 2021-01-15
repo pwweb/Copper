@@ -98,7 +98,7 @@ class Copper
     public static function decimal(?int $precision = null)
     {
         if (false === is_null($precision)) {
-            self::$formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $precision);
+            self::$formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $precision);
         }
         if (\NumberFormatter::DECIMAL !== self::$style) {
             self::setStyle(\NumberFormatter::DECIMAL);
