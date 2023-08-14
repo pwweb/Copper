@@ -11,6 +11,8 @@
 
 namespace Copper;
 
+use NumberFormatter;
+
 /**
  * A simple API extension for NumberFormatter.
  */
@@ -26,23 +28,23 @@ class Copper
     /**
      * Formatter instance.
      *
-     * @var NumberFormatter|null
+     * @var NumberFormatter
      */
-    public static $formatter = null;
+    public static NumberFormatter $formatter;
 
     /**
      * Instance of self.
      *
-     * @var Copper/Copper|null
+     * @var Copper/Copper
      */
-    public static $instance = null;
+    public static Copper $instance;
 
     /**
      * Style of formatter to use.
      *
      * @var int
      */
-    public static int $style = \NumberFormatter::DECIMAL;
+    public static int $style = NumberFormatter::DECIMAL;
 
     /**
      * Value of the number to format.
@@ -61,13 +63,13 @@ class Copper
     /**
      * Create the instance of Copper.
      *
-     * @param float|null  $value  Number to be used in the formatter.
-     * @param int|null    $style  Style of formatter to use.
+     * @param float|null $value Number to be used in the formatter.
+     * @param int|null $style Style of formatter to use.
      * @param string|null $locale Locale to use for the formatter.
      *
      * @return Copper Copper instance.
      */
-    public static function create(?float $value = null, ?int $style = null, ?string $locale = null)
+    public static function create(?float $value = null, ?int $style = null, ?string $locale = null): Copper
     {
         if (null === self::$instance) {
             self::$instance = new self;
@@ -83,7 +85,7 @@ class Copper
             self::$style = $style;
         }
 
-        self::$formatter = new \NumberFormatter(self::$locale, self::$style);
+        self::$formatter = new NumberFormatter(self::$locale, self::$style);
 
         return self::$instance;
     }
@@ -95,13 +97,13 @@ class Copper
      *
      * @return string Formatted number.
      */
-    public static function decimal(?int $precision = null)
+    public static function decimal(?int $precision = null): string
     {
         if (false === is_null($precision)) {
-            self::$formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $precision);
+            self::$formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
         }
-        if (\NumberFormatter::DECIMAL !== self::$style) {
-            self::setStyle(\NumberFormatter::DECIMAL);
+        if (NumberFormatter::DECIMAL !== self::$style) {
+            self::setStyle(NumberFormatter::DECIMAL);
         }
 
         return self::$formatter->format(self::$value);
@@ -114,10 +116,10 @@ class Copper
      *
      * @return string Formatted number.
      */
-    public static function currency(string $iso)
+    public static function currency(string $iso): string
     {
-        if (\NumberFormatter::CURRENCY !== self::$style) {
-            self::setStyle(\NumberFormatter::CURRENCY);
+        if (NumberFormatter::CURRENCY !== self::$style) {
+            self::setStyle(NumberFormatter::CURRENCY);
         }
 
         return self::$formatter->formatCurrency(self::$value, $iso);
@@ -128,10 +130,10 @@ class Copper
      *
      * @return string Formatted number.
      */
-    public static function spellOut()
+    public static function spellOut(): string
     {
-        if (\NumberFormatter::SPELLOUT !== self::$style) {
-            self::setStyle(\NumberFormatter::SPELLOUT);
+        if (NumberFormatter::SPELLOUT !== self::$style) {
+            self::setStyle(NumberFormatter::SPELLOUT);
         }
 
         return self::$formatter->format(self::$value);
@@ -142,10 +144,10 @@ class Copper
      *
      * @return string Formatted number.
      */
-    public static function percentage()
+    public static function percentage(): string
     {
-        if (\NumberFormatter::PERCENT !== self::$style) {
-            self::setStyle(\NumberFormatter::PERCENT);
+        if (NumberFormatter::PERCENT !== self::$style) {
+            self::setStyle(NumberFormatter::PERCENT);
         }
 
         return self::$formatter->format(self::$value);
@@ -158,10 +160,10 @@ class Copper
      *
      * @return string Formatted number.
      */
-    public static function accounting(string $iso)
+    public static function accounting(string $iso): string
     {
-        if (\NumberFormatter::CURRENCY_ACCOUNTING !== self::$style) {
-            self::setStyle(\NumberFormatter::CURRENCY_ACCOUNTING);
+        if (NumberFormatter::CURRENCY_ACCOUNTING !== self::$style) {
+            self::setStyle(NumberFormatter::CURRENCY_ACCOUNTING);
         }
 
         return self::$formatter->formatCurrency(self::$value, $iso);
@@ -172,10 +174,10 @@ class Copper
      *
      * @return string Formatted number.
      */
-    public static function scientific()
+    public static function scientific(): string
     {
-        if (\NumberFormatter::SCIENTIFIC !== self::$style) {
-            self::setStyle(\NumberFormatter::SCIENTIFIC);
+        if (NumberFormatter::SCIENTIFIC !== self::$style) {
+            self::setStyle(NumberFormatter::SCIENTIFIC);
         }
 
         return self::$formatter->format(self::$value);
@@ -188,7 +190,7 @@ class Copper
      *
      * @return Copper Copper instance.
      */
-    public static function setLocale(string $locale)
+    public static function setLocale(string $locale): Copper
     {
         self::$locale = $locale;
         self::create();
@@ -201,7 +203,7 @@ class Copper
      *
      * @return string Locale being used by the instance.
      */
-    public static function getLocale()
+    public static function getLocale(): string
     {
         return self::$locale;
     }
@@ -209,11 +211,11 @@ class Copper
     /**
      * Set the Style.
      *
-     * @param int $style Style of the formatting,.
+     * @param int $style Style of the formatting.
      *
      * @return Copper Copper instance.
      */
-    public static function setStyle(int $style)
+    public static function setStyle(int $style): Copper
     {
         self::$style = $style;
         self::create();
@@ -226,7 +228,7 @@ class Copper
      *
      * @return int Style being used by the instance.
      */
-    public static function getStyle()
+    public static function getStyle(): int
     {
         return self::$style;
     }
