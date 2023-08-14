@@ -72,8 +72,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     /**
      * Check function for Event Dispatcher.
      *
-     * @param Illuminate\Contracts\Events\Dispatcher|Illuminate\Events\Dispatcher|Illuminate\Events\EventDispatcher $instance Event dispatcher
-     *
+     * @param  Illuminate\Contracts\Events\Dispatcher|Illuminate\Events\Dispatcher|Illuminate\Events\EventDispatcher  $instance  Event dispatcher
      * @return bool
      */
     protected function isEventDispatcher($instance)
