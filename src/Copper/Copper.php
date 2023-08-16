@@ -35,9 +35,9 @@ class Copper
     /**
      * Instance of self.
      *
-     * @var Copper/Copper
+     * @var Copper/Copper|null
      */
-    public static Copper $instance;
+    public static ?Copper $instance = null;
 
     /**
      * Style of formatter to use.
@@ -63,20 +63,19 @@ class Copper
     /**
      * Create the instance of Copper.
      *
-     * @param float|null $value Number to be used in the formatter.
-     * @param int|null $style Style of formatter to use.
-     * @param string|null $locale Locale to use for the formatter.
-     *
+     * @param  float|string|null  $value  Number to be used in the formatter.
+     * @param  int|null  $style  Style of formatter to use.
+     * @param  string|null  $locale  Locale to use for the formatter.
      * @return Copper Copper instance.
      */
-    public static function create(?float $value = null, ?int $style = null, ?string $locale = null): Copper
+    public static function create(float|string|null $value = null, ?int $style = null, ?string $locale = null): Copper
     {
         if (null === self::$instance) {
             self::$instance = new self;
         }
 
         if (false === is_null($value)) {
-            self::$value = $value;
+            self::$value = (float) $value;
         }
         if (false === is_null($locale)) {
             self::$locale = $locale;
@@ -93,8 +92,7 @@ class Copper
     /**
      * Format the number using DECIMAL.
      *
-     * @param int|null $precision Precision to use for formatter.
-     *
+     * @param  int|null  $precision  Precision to use for formatter.
      * @return string Formatted number.
      */
     public static function decimal(?int $precision = null): string
@@ -112,8 +110,7 @@ class Copper
     /**
      * Format the number using CURRENCY.
      *
-     * @param string $iso The 3-letter ISO 4217 currency code indicating the currency to use.
-     *
+     * @param  string  $iso  The 3-letter ISO 4217 currency code indicating the currency to use.
      * @return string Formatted number.
      */
     public static function currency(string $iso): string
@@ -156,8 +153,7 @@ class Copper
     /**
      * Format the number using CURRENCY_ACCOUNTING.
      *
-     * @param string $iso The 3-letter ISO 4217 currency code indicating the currency to use.
-     *
+     * @param  string  $iso  The 3-letter ISO 4217 currency code indicating the currency to use.
      * @return string Formatted number.
      */
     public static function accounting(string $iso): string
@@ -186,8 +182,7 @@ class Copper
     /**
      * Set the Locale.
      *
-     * @param string $locale Locale in which the number would be formatted.
-     *
+     * @param  string  $locale  Locale in which the number would be formatted.
      * @return Copper Copper instance.
      */
     public static function setLocale(string $locale): Copper
@@ -211,8 +206,7 @@ class Copper
     /**
      * Set the Style.
      *
-     * @param int $style Style of the formatting.
-     *
+     * @param  int  $style  Style of the formatting.
      * @return Copper Copper instance.
      */
     public static function setStyle(int $style): Copper
