@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Copper package.
  *
@@ -11,6 +13,8 @@
 
 namespace Copper;
 
+use Copper\Enums\Prefix;
+use Copper\Enums\Unit;
 use NumberFormatter;
 
 /**
@@ -20,43 +24,31 @@ class Copper
 {
     /**
      * Locale for instance.
-     *
-     * @var string
      */
     public static string $locale = 'en-GB';
 
     /**
      * Formatter instance.
-     *
-     * @var NumberFormatter
      */
     public static NumberFormatter $formatter;
 
     /**
      * Instance of self.
-     *
-     * @var Copper/Copper|null
      */
     public static ?Copper $instance = null;
 
     /**
      * Style of formatter to use.
-     *
-     * @var int
      */
     public static int $style = NumberFormatter::DECIMAL;
 
     /**
      * Value of the number to format.
-     *
-     * @var float
      */
     public static float $value;
 
     /**
      * Default currency value to use.
-     *
-     * @var string
      */
     public static string $defaultCurrency = 'GBP';
 
@@ -70,7 +62,7 @@ class Copper
      */
     public static function create(float|string|null $value = null, ?int $style = null, ?string $locale = null): Copper
     {
-        if (null === self::$instance) {
+        if (! self::$instance instanceof self) {
             self::$instance = new self;
         }
 
@@ -93,9 +85,9 @@ class Copper
      * Format the number using DECIMAL.
      *
      * @param  int|null  $precision  Precision to use for formatter.
-     * @return string Formatted number.
+     * @return string|bool Formatted number.
      */
-    public static function decimal(?int $precision = null): string
+    public static function decimal(?int $precision = null): string|bool
     {
         if (false === is_null($precision)) {
             self::$formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
@@ -111,9 +103,9 @@ class Copper
      * Format the number using CURRENCY.
      *
      * @param  string  $iso  The 3-letter ISO 4217 currency code indicating the currency to use.
-     * @return string Formatted number.
+     * @return string|bool Formatted number.
      */
-    public static function currency(string $iso): string
+    public static function currency(string $iso): string|bool
     {
         if (NumberFormatter::CURRENCY !== self::$style) {
             self::setStyle(NumberFormatter::CURRENCY);
@@ -125,9 +117,9 @@ class Copper
     /**
      * Format the number using SPELLOUT.
      *
-     * @return string Formatted number.
+     * @return string|bool Formatted number.
      */
-    public static function spellOut(): string
+    public static function spellOut(): string|bool
     {
         if (NumberFormatter::SPELLOUT !== self::$style) {
             self::setStyle(NumberFormatter::SPELLOUT);
@@ -139,9 +131,9 @@ class Copper
     /**
      * Format the number using PERCENT.
      *
-     * @return string Formatted number.
+     * @return string|bool Formatted number.
      */
-    public static function percentage(): string
+    public static function percentage(): string|bool
     {
         if (NumberFormatter::PERCENT !== self::$style) {
             self::setStyle(NumberFormatter::PERCENT);
@@ -154,9 +146,9 @@ class Copper
      * Format the number using CURRENCY_ACCOUNTING.
      *
      * @param  string  $iso  The 3-letter ISO 4217 currency code indicating the currency to use.
-     * @return string Formatted number.
+     * @return string|bool Formatted number.
      */
-    public static function accounting(string $iso): string
+    public static function accounting(string $iso): string|bool
     {
         if (NumberFormatter::CURRENCY_ACCOUNTING !== self::$style) {
             self::setStyle(NumberFormatter::CURRENCY_ACCOUNTING);
@@ -168,9 +160,9 @@ class Copper
     /**
      * Format the number using SCIENTIFIC.
      *
-     * @return string Formatted number.
+     * @return string|bool Formatted number.
      */
-    public static function scientific(): string
+    public static function scientific(): string|bool
     {
         if (NumberFormatter::SCIENTIFIC !== self::$style) {
             self::setStyle(NumberFormatter::SCIENTIFIC);
@@ -180,12 +172,55 @@ class Copper
     }
 
     /**
+     * Format the number using SI units and prefixes.
+     *
+     * @param  Unit  $unit  SI Unit to display using.
+     *
+     * @parm bool $usePrefix Set whether to use prefixes.
+     *
+     * @param  bool  $useThrees  Set whether to use only multiples of three in prefixes.
+     * @param  int|null  $precision  Set the precision of the number.
+     * @return string Formatted number.
+     */
+    public static function unit(Unit $unit, bool $usePrefix = true, bool $useThrees = true, ?int $precision = null): string
+    {
+        if (false === is_null($precision)) {
+            self::$formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
+        }
+        if (NumberFormatter::DECIMAL !== self::$style) {
+            self::setStyle(NumberFormatter::DECIMAL);
+        }
+
+        $value = self::$value;
+        $exponent = 0;
+
+        if ($usePrefix) {
+            $exponent = (int) (floor(log10(abs($value))));
+
+            if ($useThrees || $exponent >= 3) {
+                $options = [
+                    (int) floor($exponent / 3) * 3,
+                    (int) ceil($exponent / 3) * 3,
+                ];
+                $exponent =
+                    abs($exponent - $options[0]) < abs($options[1] - $exponent)
+                        ? $options[0]
+                        : $options[1];
+            }
+
+            $value /= (10 ** $exponent);
+        }
+
+        return self::$formatter->format($value).' '.Prefix::from($exponent)->symbol().$unit->value;
+    }
+
+    /**
      * Set the Locale.
      *
      * @param  string  $locale  Locale in which the number would be formatted.
-     * @return Copper Copper instance.
+     * @return ?Copper Copper instance.
      */
-    public static function setLocale(string $locale): Copper
+    public static function setLocale(string $locale): ?Copper
     {
         self::$locale = $locale;
         self::create();
@@ -207,9 +242,9 @@ class Copper
      * Set the Style.
      *
      * @param  int  $style  Style of the formatting.
-     * @return Copper Copper instance.
+     * @return ?Copper Copper instance.
      */
-    public static function setStyle(int $style): Copper
+    public static function setStyle(int $style): ?Copper
     {
         self::$style = $style;
         self::create();
