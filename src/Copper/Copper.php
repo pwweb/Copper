@@ -11,6 +11,8 @@
 
 namespace Copper;
 
+use Copper\Enums\Prefix;
+use Copper\Enums\Unit;
 use NumberFormatter;
 
 /**
@@ -177,6 +179,46 @@ class Copper
         }
 
         return self::$formatter->format(self::$value);
+    }
+
+    /**
+     * Format the number using SI units and prefixes.
+     * @param Unit $unit SI Unit to display using.
+     * @parm bool $usePrefix Set whether to use prefixes.
+     * @param bool $useThrees Set whether to use only multiples of three in prefixes.
+     * @param int|null $precision Set the precision of the number.
+     * @return string Formatted number.
+     */
+    public static function unit(Unit $unit, bool $usePrefix = true, bool $useThrees = true, ?int $precision = null): string
+    {
+        if (false === is_null($precision)) {
+            self::$formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
+        }
+        if (NumberFormatter::DECIMAL !== self::$style) {
+            self::setStyle(NumberFormatter::DECIMAL);
+        }
+
+        $value = self::$value;
+        $exponent = 0;
+
+        if($usePrefix) {
+            $exponent = (int) (floor(log10(abs($value))));
+
+            if ($useThrees || $exponent >= 3) {
+                $options = [
+                    (int) floor($exponent / 3) * 3,
+                    (int) ceil($exponent / 3) * 3
+                ];
+                $exponent =
+                    abs($exponent - $options[0]) < abs($options[1] - $exponent)
+                        ? $options[0]
+                        : $options[1];
+            }
+
+            $value /= (10 ** $exponent);
+        }
+
+        return self::$formatter->format($value) . ' ' . Prefix::from($exponent)->symbol() . $unit->value;
     }
 
     /**
