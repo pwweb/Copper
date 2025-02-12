@@ -44,14 +44,15 @@ If you don't provide a `$style` it will default to `NumberFormatter::DECIMAL`. I
 
 Then with this you can format in any of the following ways:
 
-| Format     | Code                        | Output                                                    |
-| ---------- | --------------------------- | --------------------------------------------------------- |
-| Currency   | `$value->currency('GBP')`   | -£1,234.56                                                |
-| Decimal    | `$value->decimal(2)`        | -1,234.56                                                 |
-| Percentage | `$value->percentage()`      | -123,456%                                                 |
-| Scientific | `$value->scientific()`      | -1.23456E3                                                |
+| Format     | Code                       | Output                                                    |
+|------------|----------------------------|-----------------------------------------------------------|
+| Currency   | `$value->currency('GBP')`  | -£1,234.56                                                |
+| Decimal    | `$value->decimal(2)`       | -1,234.56                                                 |
+| Percentage | `$value->percentage()`     | -123,456%                                                 |
+| Scientific | `$value->scientific()`     | -1.23456E3                                                |
 | Accounting | `$value->accounting('GBP')` | (£1,234.56)                                               |
-| SpellOut   | `$value->spellOut()`        | minus one thousand two hundred thirty-four point five six |
+| SpellOut   | `$value->spellOut()`       | minus one thousand two hundred thirty-four point five six |
+| Unit       | `$value->unit(Unit::GRAM)` | 1.234 kg                                                  |
 
 Since the `create()` function returns an instance of `Copper`, you can chain the methods together i.e. `Copper\Copper::create(-1234.56)->currency('EUR')` leads to `-€1,234.56`.
 
@@ -69,7 +70,7 @@ In addition to the base functions there are a few setters and getters:
 
 ## Change log
 
-Please see the [changelog](changelog.md) for more information on what has changed recently.
+Please see the [changelog](CHANGELOG) for more information on what has changed recently.
 
 ## Contributing
 
