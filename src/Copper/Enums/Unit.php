@@ -36,9 +36,9 @@ enum Unit: string
     case SIEVERT = 'Sv';
     case KATAL = 'kat';
 
-    public function name(): string {
-        return match($this)
-        {
+    public function name(): string
+    {
+        return match ($this) {
             self::SECOND => 'Second',
             self::METRE => 'Metre',
             self::GRAM => 'Gram',
