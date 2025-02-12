@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Copper package.
  *
@@ -23,10 +25,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
      * Service provider boot loader.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->updateLocale();
 
@@ -39,8 +39,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         if (true === $this->isEventDispatcher($events)) {
             $events->listen(
-                (true === class_exists('Illuminate\Foundation\Events\LocaleUpdated')) ? 'Illuminate\Foundation\Events\LocaleUpdated' : 'locale.changed',
-                function () use ($service) {
+                (class_exists(\Illuminate\Foundation\Events\LocaleUpdated::class)) ? \Illuminate\Foundation\Events\LocaleUpdated::class : 'locale.changed',
+                function () use ($service): void {
                     $service->updateLocale();
                 }
             );
@@ -49,10 +49,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     /**
      * Function to update the locale used by Copper.
-     *
-     * @return void
      */
-    public function updateLocale()
+    public function updateLocale(): void
     {
         $app = $this->app;
         $locale = $app->getLocale();
@@ -61,10 +59,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     /**
      * Registration function for Laravel <5.3.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         // Needed for Laravel < 5.3 compatibility
     }
@@ -73,9 +69,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      * Check function for Event Dispatcher.
      *
      * @param  Illuminate\Contracts\Events\Dispatcher|Illuminate\Events\Dispatcher|Illuminate\Events\EventDispatcher  $instance  Event dispatcher
-     * @return bool
      */
-    protected function isEventDispatcher($instance)
+    protected function isEventDispatcher($instance): bool
     {
         return $instance instanceof EventDispatcher
             || $instance instanceof Dispatcher

@@ -32,8 +32,9 @@ enum Prefix: int
     case RONTO = -27;
     case QUECTO = -30;
 
-    public function symbol(): string {
-        return match($this) {
+    public function symbol(): string
+    {
+        return match ($this) {
             self::QUETTA => 'Q',
             self::RONNA => 'R',
             self::YOTTA => 'Y',
@@ -62,7 +63,8 @@ enum Prefix: int
         };
     }
 
-    public function multipleOfThree(): bool {
-        return ! abs(self::value) % 3;
+    public function multipleOfThree(): bool
+    {
+        return (bool) (abs(self::value) % 3);
     }
 }

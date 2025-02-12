@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Copper package.
  *
@@ -22,15 +24,11 @@ class Copper
 {
     /**
      * Locale for instance.
-     *
-     * @var string
      */
     public static string $locale = 'en-GB';
 
     /**
      * Formatter instance.
-     *
-     * @var NumberFormatter
      */
     public static NumberFormatter $formatter;
 
@@ -43,22 +41,16 @@ class Copper
 
     /**
      * Style of formatter to use.
-     *
-     * @var int
      */
     public static int $style = NumberFormatter::DECIMAL;
 
     /**
      * Value of the number to format.
-     *
-     * @var float
      */
     public static float $value;
 
     /**
      * Default currency value to use.
-     *
-     * @var string
      */
     public static string $defaultCurrency = 'GBP';
 
@@ -72,7 +64,7 @@ class Copper
      */
     public static function create(float|string|null $value = null, ?int $style = null, ?string $locale = null): Copper
     {
-        if (null === self::$instance) {
+        if (! self::$instance instanceof \Copper\Copper) {
             self::$instance = new self;
         }
 
@@ -183,10 +175,13 @@ class Copper
 
     /**
      * Format the number using SI units and prefixes.
-     * @param Unit $unit SI Unit to display using.
+     *
+     * @param  Unit  $unit  SI Unit to display using.
+     *
      * @parm bool $usePrefix Set whether to use prefixes.
-     * @param bool $useThrees Set whether to use only multiples of three in prefixes.
-     * @param int|null $precision Set the precision of the number.
+     *
+     * @param  bool  $useThrees  Set whether to use only multiples of three in prefixes.
+     * @param  int|null  $precision  Set the precision of the number.
      * @return string Formatted number.
      */
     public static function unit(Unit $unit, bool $usePrefix = true, bool $useThrees = true, ?int $precision = null): string
@@ -201,13 +196,13 @@ class Copper
         $value = self::$value;
         $exponent = 0;
 
-        if($usePrefix) {
+        if ($usePrefix) {
             $exponent = (int) (floor(log10(abs($value))));
 
             if ($useThrees || $exponent >= 3) {
                 $options = [
                     (int) floor($exponent / 3) * 3,
-                    (int) ceil($exponent / 3) * 3
+                    (int) ceil($exponent / 3) * 3,
                 ];
                 $exponent =
                     abs($exponent - $options[0]) < abs($options[1] - $exponent)
@@ -218,7 +213,7 @@ class Copper
             $value /= (10 ** $exponent);
         }
 
-        return self::$formatter->format($value) . ' ' . Prefix::from($exponent)->symbol() . $unit->value;
+        return self::$formatter->format($value).' '.Prefix::from($exponent)->symbol().$unit->value;
     }
 
     /**
