@@ -55,15 +55,16 @@ class Copper
     /**
      * Create the instance of Copper.
      *
-     * @param  float|string|null  $value  Number to be used in the formatter.
-     * @param  int|null  $style  Style of formatter to use.
-     * @param  string|null  $locale  Locale to use for the formatter.
+     * @param float|string|null $value  Number to be used in the formatter.
+     * @param int|null          $style  Style of formatter to use.
+     * @param string|null       $locale Locale to use for the formatter.
+     *
      * @return Copper Copper instance.
      */
     public static function create(float|string|null $value = null, ?int $style = null, ?string $locale = null): Copper
     {
-        if (! self::$instance instanceof self) {
-            self::$instance = new self;
+        if (!self::$instance instanceof self) {
+            self::$instance = new self();
         }
 
         if (false === is_null($value)) {
@@ -84,7 +85,8 @@ class Copper
     /**
      * Format the number using DECIMAL.
      *
-     * @param  int|null  $precision  Precision to use for formatter.
+     * @param int|null $precision Precision to use for formatter.
+     *
      * @return string|bool Formatted number.
      */
     public static function decimal(?int $precision = null): string|bool
@@ -102,7 +104,8 @@ class Copper
     /**
      * Format the number using CURRENCY.
      *
-     * @param  string  $iso  The 3-letter ISO 4217 currency code indicating the currency to use.
+     * @param string $iso The 3-letter ISO 4217 currency code indicating the currency to use.
+     *
      * @return string|bool Formatted number.
      */
     public static function currency(string $iso): string|bool
@@ -145,7 +148,8 @@ class Copper
     /**
      * Format the number using CURRENCY_ACCOUNTING.
      *
-     * @param  string  $iso  The 3-letter ISO 4217 currency code indicating the currency to use.
+     * @param string $iso The 3-letter ISO 4217 currency code indicating the currency to use.
+     *
      * @return string|bool Formatted number.
      */
     public static function accounting(string $iso): string|bool
@@ -174,12 +178,13 @@ class Copper
     /**
      * Format the number using SI units and prefixes.
      *
-     * @param  Unit  $unit  SI Unit to display using.
+     * @param Unit $unit SI Unit to display using.
      *
      * @parm bool $usePrefix Set whether to use prefixes.
      *
-     * @param  bool  $useThrees  Set whether to use only multiples of three in prefixes.
-     * @param  int|null  $precision  Set the precision of the number.
+     * @param bool     $useThrees Set whether to use only multiples of three in prefixes.
+     * @param int|null $precision Set the precision of the number.
+     *
      * @return string Formatted number.
      */
     public static function unit(Unit $unit, bool $usePrefix = true, bool $useThrees = true, ?int $precision = null): string
@@ -195,7 +200,7 @@ class Copper
         $exponent = 0;
 
         if ($usePrefix) {
-            $exponent = (int) (floor(log10(abs($value))));
+            $exponent = (int) floor(log10(abs($value)));
 
             if ($useThrees || $exponent >= 3) {
                 $options = [
@@ -217,7 +222,8 @@ class Copper
     /**
      * Set the Locale.
      *
-     * @param  string  $locale  Locale in which the number would be formatted.
+     * @param string $locale Locale in which the number would be formatted.
+     *
      * @return ?Copper Copper instance.
      */
     public static function setLocale(string $locale): ?Copper
@@ -241,7 +247,8 @@ class Copper
     /**
      * Set the Style.
      *
-     * @param  int  $style  Style of the formatting.
+     * @param int $style Style of the formatting.
+     *
      * @return ?Copper Copper instance.
      */
     public static function setStyle(int $style): ?Copper
