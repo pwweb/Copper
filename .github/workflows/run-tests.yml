@@ -10,13 +10,13 @@ jobs:
 
         strategy:
             matrix:
-                php:                [7.4, 8.0]
-                laravel:            [8.*]
+                php:                [8.2, 8.3, 8.4]
+                laravel:            [11.*]
                 dependency-version: [prefer-lowest, prefer-stable]
                 os:                 [ubuntu-latest]
                 include:
-                    - laravel:      8.*
-                      testbench:    6.*
+                    - laravel:      11.*
+                      testbench:    9.*
 
         name:                       P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
@@ -36,14 +36,5 @@ jobs:
                   composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
                   composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
-            # - name:               Execute tests
-            #   run:                vendor/bin/phpunit
-
-            - name:                 Send Slack notification
-              uses:                 8398a7/action-slack@v2
-              if:                   failure()
-              with:
-                  status:           ${{ job.status }}
-                  author_name:      ${{ github.actor }}
-              env:
-                SLACK_WEBHOOK_URL:  ${{ secrets.SLACK_WEBHOOK }}
+            - name:               Execute tests
+              run:                composer run-script test
