@@ -65,6 +65,6 @@ enum Prefix: int
 
     public function multipleOfThree(): bool
     {
-        return (bool) (abs(self::value) % 3);
+        return 0 === (abs($this->value) % 3);
     }
 }
