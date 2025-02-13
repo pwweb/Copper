@@ -1,6 +1,6 @@
 # Copper
 
-![](https://banners.beyondco.de/Copper.png?theme=dark&packageName=pwweb%2Fcopper&pattern=morphingDiamonds&style=style_1&description=An+API+extension+for+NumberFormatter&md=1&showWatermark=1&fontSize=100px&images=currency-euro)
+![](https://banners.beyondco.de/Copper.png?theme=dark&packageManager=composer+require&packageName=pwweb%2Fcopper&pattern=morphingDiamonds&style=style_1&description=An+API+extension+for+NumberFormatter&md=1&showWatermark=1&fontSize=100px&images=currency-euro)
 
 [![Latest Stable Version](https://poser.pugx.org/pwweb/copper/v/stable?format=flat-square)](https://packagist.org/packages/pwweb/copper)
 [![Total Downloads](https://poser.pugx.org/pwweb/copper/downloads?format=flat-square)](https://packagist.org/packages/pwweb/copper)
