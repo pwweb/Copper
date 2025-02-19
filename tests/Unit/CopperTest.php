@@ -26,7 +26,8 @@ it('creates an instance with custom values', function () {
 });
 
 it('formats a number as decimal', function () {
-    Copper::create(1234.56, locale: 'en-GB');
+    Copper::create(1234.563, locale: 'en-GB');
+    Copper::setStyle(2);
     $result = Copper::decimal(2);
     expect($result)->toBe('1,234.56');
 });
@@ -63,6 +64,7 @@ it('formats a number as accounting currency', function () {
 
 it('formats a number with SI units and prefixes', function (float $value, string $output) {
     Copper::create($value);
+    Copper::setStyle(2);
     $result = Copper::unit(Unit::METRE);
     expect($result)->toBe($output);
 })->with([
@@ -87,6 +89,7 @@ it('formats a number with SI units and prefixes whilst using the non-multiples o
 
 it('formats a number with SI units and prefixes with specific precision', function () {
     Copper::create(123456);
+    Copper::setStyle(2);
     $result = Copper::unit(Unit::METRE, precision: 2);
     expect($result)->toBe('0.12 Mm');
 });

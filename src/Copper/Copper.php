@@ -89,11 +89,11 @@ class Copper
      */
     public static function decimal(?int $precision = null): string|bool
     {
-        if (false === is_null($precision)) {
-            self::$formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
-        }
         if (NumberFormatter::DECIMAL !== self::$style) {
             self::setStyle(NumberFormatter::DECIMAL);
+        }
+        if (false === is_null($precision)) {
+            self::$formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
         }
 
         return self::$formatter->format(self::$value);
@@ -184,11 +184,11 @@ class Copper
      */
     public static function unit(Unit $unit, bool $usePrefix = true, bool $useThrees = true, ?int $precision = null): string
     {
-        if (false === is_null($precision)) {
-            self::$formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
-        }
         if (NumberFormatter::DECIMAL !== self::$style) {
             self::setStyle(NumberFormatter::DECIMAL);
+        }
+        if (false === is_null($precision)) {
+            self::$formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
         }
 
         $value = self::$value;
